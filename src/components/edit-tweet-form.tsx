@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { auth, db, storage } from "../firebase";
 import { doc, updateDoc } from "firebase/firestore";
-import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const Form = styled.form`
   display: flex;
@@ -100,7 +100,6 @@ export default function EditTweetForm({ tweet, ID, setEditting }: EditTweet) {
       }
       if (newFile) {
         const locationRef = ref(storage, `tweets/${user.uid}/${ID}`);
-        await deleteObject(locationRef);
         const result = await uploadBytes(locationRef, newFile);
         const url = await getDownloadURL(result.ref);
         await updateDoc(document, {
